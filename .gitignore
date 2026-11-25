@@ -1,5 +1,32 @@
+# Operating system files
 .DS_Store
 Thumbs.db
+
+# Logs
 *.log
+
+# VS Code settings
 .vscode/
+
+# Dependencies
 node_modules/
+
+# Python cache and virtual environments
+__pycache__/
+*.pyc
+.venv/
+venv/
+
+# Environment variables and secrets
+.env
+.env.*
+!.env.example
+
+# Temporary files
+*.tmp
+*.bak
+
+# Dataset files (review before publishing)
+dataset/
+datasettt/
+video_features/

@@ -1,84 +1,81 @@
 # SilentTalk
 
-**Two-way communication using Indian Sign Language recognition, translated into Tulu.**
+**AI-Powered Two-Way Communication Using Indian Sign Language Recognition and Tulu Translation**
 
-ಸೈಲೆಂಟ್‌ಟಾಕ್: ಭಾರತೀಯ ಸಂಜ್ಞಾ ಭಾಷೆ ಗುರುತು ಮಲ್ತ್‌ದ್ ತುಳುಟು ರಡ್ಡ್ ದಿಕ್ಕ್‌ದ ಸಂವಾದ
+SilentTalk is a browser-based communication application designed to bridge the communication gap between Deaf and hearing individuals using Indian Sign Language (ISL), Tulu translation, and speech technologies.
 
-A browser app for a signer and a Tulu speaker:
+## Key Features
 
-1. **ISL → Tulu** — webcam + MediaPipe Hands classifies handshapes and speaks/shows Tulu (Kannada script + romanization).
-2. **Text/speech → ISL** — English or Tulu is matched to a Tulunadu lexicon and played as an animated ISL hand. Unknown words are fingerspelled.
+- **ISL Recognition:** Recognizes hand gestures using webcam input and MediaPipe Hands.
+- **Tulu Translation:** Converts recognized English sign labels into Tulu text written in Kannada script.
+- **Speech Output:** Reads translated text aloud using browser text-to-speech.
+- **Speech-to-Text:** Converts spoken input into text using browser speech recognition and Whisper.
+- **Two-Way Communication:** Supports sign-to-text/speech and speech-to-text communication.
 
-## Run it
+## Technologies Used
 
-Chrome or Edge is required for the camera and microphone.
+- HTML, CSS, JavaScript
+- MediaPipe Hands
+- K-Nearest Neighbors (KNN)
+- Transformers.js
+- Whisper Tiny
+- Web Speech API
 
-**Do not open `index.html` as a file.** The webcam is blocked on `file://`. Serve the folder:
+## How It Works
 
-### Option A — VS Code Live Server
-Right-click `index.html` → Open with Live Server.
+### Sign Language to Tulu
+1. Capture hand gestures through the webcam.
+2. Extract hand landmarks using MediaPipe Hands.
+3. Compare the detected gesture with stored gesture samples.
+4. Predict the corresponding sign.
+5. Translate the recognized sign into Tulu.
+6. Display the translated text and generate speech output.
 
-### Option B — Python (if installed)
-```bash
-python -m http.server 8080
-```
-Then open http://localhost:8080
+### Speech to Text
+1. Capture speech through the microphone.
+2. Process the speech using browser speech recognition or Whisper.
+3. Display the recognized text on the application.
 
-### Option C — PowerShell (this PC)
-```powershell
-powershell -ExecutionPolicy Bypass -File .\serve.ps1
-```
-Then open http://localhost:8080
+## Dataset
 
-Allow camera when the browser asks.
+The project uses a custom dataset containing **1,272 video clips across 42 sign classes**.
 
-## What the recognizer knows
+## Running the Project
 
-The camera model is a nearest-centroid classifier on five finger-extension scores (joint angles from 21 MediaPipe landmarks). The same function scores the webcam and `dataset/samples.json`, so a clear handshape gets the dataset label. Inference is a few distance calculations — typically well under 1 ms after the hand tracker runs. A sign commits after 3 agreeing frames (about a tenth of a second). MediaPipe Hands uses its fast model (`modelComplexity: 0`).
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/kavya-06-b/SilentTalk-Two-Way-Communication-Using-Indian-Sign-Language-and-Speech-Recognition.git
+   ```
+2. Open the project folder.
+3. Start a local server:
+   ```bash
+   python -m http.server 8080
+   ```
+4. Open `http://localhost:8080` in Chrome or Edge.
+5. Allow camera and microphone permissions.
 
-Hold the shape steadily in good light, palm facing the camera:
+## Project Structure
 
-| Dataset id | Handshape | Meaning | Tulu |
-| --- | --- | --- | --- |
-| HELLO | Open palm, or two open palms together | Hello | ನಮಸ್ಕಾರ |
-| YES | Thumb up | Yes | ಅಂದ್ |
-| A | Fist | Letter A | ಎ |
-| 1 | Index | One | ಒಂಜಿ |
-| 2 | Index + middle | Two | ರಡ್ಡ್ |
-| WATER | Three fingers | Water | ನೀರ್ |
-| B | Four fingers | Letter B | ಬಿ |
-| NO | Index + pinky | No | ಇಜ್ಜಿ |
-| L | Thumb + index | Letter L | ಎಲ್ |
-| Y | Thumb + pinky | Letter Y | ವೈ |
-| I | Pinky | Letter I | ಐ |
-| GOOD | Thumb + index + middle | Good | ಎಡ್ಡೆ |
-| HELP | Two hands close together | Help | ಸಾಯ |
-
-The ISL page scores every saved sample and shows the match rate. Rebuild the file with Node:
-
-```bash
-node tools/build-dataset.mjs
-```
-
-The lexicon in `js/dictionary.js` holds everyday Tulu lines (Solmelu, Encha ullar, Enk bodu, …). Phrase chips still cover signs the camera does not model as their own handshape (thank you, please, goodbye).
-
-## Project layout
-
-```
-index.html
-css/styles.css
-dataset/samples.json
-js/app.js
-js/camera.js
-js/classifier.js
-js/dataset.js
-js/dictionary.js
-js/eval.js
-js/signs.js
-js/speech.js
-tools/build-dataset.mjs
+```text
+SilentTalk/
+├── index.html
+├── css/
+├── js/
+├── model/
+├── tools/
+└── README.md
 ```
 
-## Academic note
+## Future Improvements
 
-Tulu is written here in **Kannada script**, which is the common digital orthography. Speech uses the browser voice closest to Kannada/Hindi/Indian English, because dedicated Tulu TTS is not built into browsers.
+- Improve recognition accuracy across different signers.
+- Expand the ISL gesture dataset.
+- Improve sentence-level Tulu translation.
+- Enhance multilingual speech recognition.
+- Add support for more regional languages.
+
+## Academic Project
+
+Developed as an Artificial Intelligence and Machine Learning project.
+
+**SilentTalk – Breaking Communication Barriers Through AI.**
